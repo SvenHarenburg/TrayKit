@@ -19,19 +19,25 @@ namespace TrayKit.Controllers
 
     protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
     {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+      PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
-        [ImportMany(typeof(ITrayKitPlugin))]
+    [ImportMany(typeof(ITrayKitPlugin))]
     private ITrayKitPlugin[] RawPlugins { get; set; }
 
-      private PluginList _pluginList;
-
-      public PluginList Plugins
+    private PluginList plugins;
+    public PluginList Plugins
+    {
+      get
       {
-            get { return _pluginList;}
-          set{ _pluginList = value; OnPropertyChanged(); }
+        return plugins;
       }
+      set
+      {
+        plugins = value;
+        OnPropertyChanged();
+      }
+    }
 
     public PluginController()
     {
