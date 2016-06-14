@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using TrayKit.Base;
 using TrayKit.Models;
 using TrayKit.Models.Settings;
 using System.Reflection;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -36,7 +30,7 @@ namespace TrayKit.Controllers
       public PluginList Plugins
       {
             get { return _pluginList;}
-            set { _pluginList = value; OnPropertyChanged(nameof(Plugins)); }
+          set{ _pluginList = value; OnPropertyChanged(); }
       }
 
     public PluginController()
