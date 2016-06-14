@@ -1,28 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using TrayKit.Base;
 using TrayKit.Models;
 using TrayKit.Models.Settings;
 using System.Reflection;
-using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
+using System.Runtime.CompilerServices;
 
 namespace TrayKit.Controllers
 {
-  internal class PluginController
+  internal class PluginController : INotifyPropertyChanged
   {
     private const string PluginDirectoryName = "Plugins";
     private string PluginDirectory;
 
-    [ImportMany(typeof(ITrayKitPlugin))]
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+        [ImportMany(typeof(ITrayKitPlugin))]
     private ITrayKitPlugin[] RawPlugins { get; set; }
 
-    public PluginList Plugins { get; private set; }
+      private PluginList _pluginList;
+
+      public PluginList Plugins
+      {
+            get { return _pluginList;}
+          set{ _pluginList = value; OnPropertyChanged(); }
+      }
 
     public PluginController()
     {
