@@ -20,7 +20,7 @@ Example of a plugins settings being displayed for editing by TrayKit.
 
 ## CREATING PLUGINS
 
-To create a plugin you need to create a new library and implement the interfaces provided by the TrayKit.Base library. To get access to the library you can either download the repository or add the Nuget-package "TrayKit.Base" to the project(NOT YET ON NUGET, WILL ADD SOON). I will explain the creation process with the SamplePlugin provided in the TrayKit-solution.
+To create a plugin you need to create a new library and implement the interfaces provided by the TrayKit.Base library. To get access to the library you can either download the repository or add the Nuget-package "TrayKit.Base" to the project. I will explain the creation process with the SamplePlugin provided in the TrayKit-solution.
 
 **Step 1:**
 Create the plugin-class by implementing "ITrayKitPlugin" and marking the class itself with the "Export"-attribute provided by the MEF-framework:
