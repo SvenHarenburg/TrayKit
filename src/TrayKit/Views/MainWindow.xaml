@@ -37,29 +37,25 @@
         <ColumnDefinition Width="67*"/>
       </Grid.ColumnDefinitions>
       <TextBlock Name="TxbPlugins" Text="Plugins:" Grid.Column="0" Grid.Row="0" Margin="8,8,0,0"/>
-      <TreeView Name="TvPlugins" Grid.Column="0" Grid.Row="0" Margin="0,30,0,30"
+
+      <ListBox Name="LbPlugins" Grid.Column="0" Grid.Row="0" Margin="0,30,0,30"
                       ItemsSource="{Binding Path=PluginController.Plugins}">
-        <TreeView.ItemTemplate>
-          <HierarchicalDataTemplate ItemsSource="{Binding TrayKitPlugin.Commands}" DataType="{x:Type base:ITrayKitPluginCommand}">
-            <HierarchicalDataTemplate.ItemTemplate>
-              <DataTemplate>
-                <TextBlock Text="{Binding Name}" />
-              </DataTemplate>
-            </HierarchicalDataTemplate.ItemTemplate>
-            <StackPanel Orientation="Horizontal">
-              <CheckBox IsChecked="{Binding Enabled}" Margin="0,0,5,0"/>
-              <TextBlock Text="{Binding TrayKitPlugin.Name}" />
-            </StackPanel>
-          </HierarchicalDataTemplate>
-        </TreeView.ItemTemplate>
-      </TreeView>
+        <ListBox.ItemTemplate>
+          <DataTemplate>                  
+          <StackPanel Orientation="Horizontal">
+            <CheckBox IsChecked="{Binding Enabled}" Margin="0,0,5,0"/>
+            <TextBlock Text="{Binding TrayKitPlugin.Name}" />
+          </StackPanel>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
       <Button Name="BtnRefreshPlugins" Grid.Column="0" Grid.Row="0" 
                     Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Bottom"
                     Style="{DynamicResource FontAwesome}" Content="&#xf021;"
                     Command="{Binding RefreshPluginsCommand}"
                     ToolTip="Refresh plugin-list" />
       <controls:PluginSettingsEditor Grid.Column="1" Grid.Row="0" 
-                                     PluginSettings="{Binding ElementName=TvPlugins, Path=SelectedItem.Settings, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                     PluginSettings="{Binding ElementName=LbPlugins, Path=SelectedItem.Settings, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
     </Grid>
     <Grid Name="Footer" Grid.Row="2" Background="Gray"/>
   </Grid>
