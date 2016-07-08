@@ -101,6 +101,7 @@
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="80*"/>
+      <RowDefinition Height="5"/>
       <RowDefinition Height="20*"/>
     </Grid.RowDefinitions>
     <ListView Name="LvPluginSettings" 
@@ -129,9 +130,11 @@
         </GridView>
       </ListView.View>
     </ListView>
+    <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                  Background="Gray"/>
     <TextBlock Name="TbDescription" 
                Text="{Binding SelectedItem.SettingAttribute.Description, ElementName=LvPluginSettings}"
-               Grid.Row="1" 
+               Grid.Row="2" 
                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                Background="LightGray"/>
   </Grid>
