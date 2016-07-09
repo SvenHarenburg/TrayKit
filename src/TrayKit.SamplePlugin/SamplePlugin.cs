@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TrayKit.Base;
 using TrayKit.SamplePlugin.Commands;
 using System.Drawing;
+using System.Collections.ObjectModel;
 
 namespace TrayKit.SamplePlugin
 {
@@ -14,7 +15,7 @@ namespace TrayKit.SamplePlugin
   public class SamplePlugin : ITrayKitPlugin
   {
     private const string PluginName = "TrayKit SamplePlugin";
-    public List<ITrayKitPluginCommand> Commands { get; }
+    public ObservableCollection<ITrayKitPluginCommand> Commands { get; }
 
     public Image Image { get; }
 
@@ -36,7 +37,7 @@ namespace TrayKit.SamplePlugin
         AFloatValue = 14.4f
       };
 
-      Commands = new List<ITrayKitPluginCommand>()
+      Commands = new ObservableCollection<ITrayKitPluginCommand>()
       {
         new HelloWorldCommand(this) { SortPosition = 0 },
         new TwoPlusTwoCommand(this) { SortPosition = 1 }

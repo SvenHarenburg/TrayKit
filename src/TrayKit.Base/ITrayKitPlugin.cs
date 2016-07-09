@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -20,7 +21,7 @@ namespace TrayKit.Base
     /// <summary>
     /// The commands provided by the plugin.
     /// </summary>
-    List<ITrayKitPluginCommand> Commands { get; }
+    ObservableCollection<ITrayKitPluginCommand> Commands { get; }
      
     /// <summary>
     /// The image that will be shown besides the plugin in the contextmenu.

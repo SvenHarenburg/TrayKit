@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -10,11 +11,11 @@ namespace TrayKit.ViewModels.DesignTimeClasses
 {
   internal class TrayKitPlugin : ITrayKitPlugin
   {
-    public List<ITrayKitPluginCommand> Commands
+    public ObservableCollection<ITrayKitPluginCommand> Commands
     {
       get
       {
-        return new List<ITrayKitPluginCommand>()
+        return new ObservableCollection<ITrayKitPluginCommand>()
         {
           new DesignTimeClasses.TrayKitCommand(this)
         };
