@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\AddNewCommand.cs" />
     <Compile Include="Commands\HelloWorldCommand.cs" />
     <Compile Include="SamplePlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

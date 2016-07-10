@@ -40,7 +40,8 @@ namespace TrayKit.SamplePlugin
       Commands = new ObservableCollection<ITrayKitPluginCommand>()
       {
         new HelloWorldCommand(this) { SortPosition = 0 },
-        new TwoPlusTwoCommand(this) { SortPosition = 1 }
+        new TwoPlusTwoCommand(this) { SortPosition = 1 },
+        new AddNewCommand(this) {SortPosition = 2 }
       };
       Image = SystemIcons.Asterisk.ToBitmap();
     }
