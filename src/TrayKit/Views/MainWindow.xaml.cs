@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using TrayKit.ViewModels;
 using System.Diagnostics;
 using TrayKit.Base;
+using System.Collections.Specialized;
 
 namespace TrayKit.Views
 {
@@ -67,7 +68,24 @@ namespace TrayKit.Views
       {
         plugin.EnabledChanged -= Plugin_EnabledChanged;
         plugin.EnabledChanged += Plugin_EnabledChanged;
+
+        plugin.CommandCollectionChanged -= Plugin_CommandCollectionChanged;
+        plugin.CommandCollectionChanged += Plugin_CommandCollectionChanged;
+
       }
+    }
+
+    private void Plugin_CommandCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+      var plugin = (Models.Plugin)sender;
+
+      /* This is kind of a hack. Instead of checking what changed and only do an update
+       * on the plugin in the contextmenu, I reimport the whole plugin.
+       * I chose not to implement new functions for updating because it would take time I currently don't have
+       * and reimporting the plugins shouldn't take much resources.  
+       */
+      ctmNotifyIcon.RemovePlugin(plugin.TrayKitPlugin);
+      ctmNotifyIcon.ImportPlugin(plugin.TrayKitPlugin);
     }
 
     private void Plugin_EnabledChanged(object sender, EventArgs e)
@@ -82,7 +100,7 @@ namespace TrayKit.Views
         ctmNotifyIcon.RemovePlugin(plugin.TrayKitPlugin);
       }
     }
-
+        
     protected override void OnStateChanged(EventArgs e)
     {
       if (WindowState == WindowState.Minimized)
@@ -155,7 +173,5 @@ namespace TrayKit.Views
       }
     }    
     #endregion
-
-
   }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,10 @@ namespace TrayKit.Models
   {
     public delegate void EnabledChangedEventHandler(object sender, EventArgs e);
     public event EnabledChangedEventHandler EnabledChanged;
-    
+
+    //public delegate void NotifyCollectionChangedEventHandler(object sender, )
+    public event NotifyCollectionChangedEventHandler CommandCollectionChanged;
+
     public ITrayKitPlugin TrayKitPlugin { get; }
 
     public Settings.PluginSettingList Settings { get; set; }
@@ -43,12 +47,19 @@ namespace TrayKit.Models
         throw new ArgumentNullException(nameof(trayKitPlugin));
       }
       TrayKitPlugin = trayKitPlugin;
+      TrayKitPlugin.Commands.CollectionChanged += OnCommandCollectionChanged;
+
       Enabled = true;
     }
 
     protected virtual void OnEnabledChanged(EventArgs e)
     {
       EnabledChanged?.Invoke(this, new EventArgs());
+    }
+
+    protected virtual void OnCommandCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+      CommandCollectionChanged?.Invoke(this, e);
     }
 
   }
