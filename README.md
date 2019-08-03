@@ -1,6 +1,3 @@
-###### NOTE: I started this project to practice and improve my programming skills. If you find yourself looking at the code thinking something like "This could've been done better.", I would appreciate it if you would tell me about it and maybe share your idea with me.
-
-
 # TRAYKIT
 
 TrayKit is a .NET desktop application designed to help with often reocurring tasks. The application runs in the system tray and uses a contextmenu accessible via right clicking to provide commands.
