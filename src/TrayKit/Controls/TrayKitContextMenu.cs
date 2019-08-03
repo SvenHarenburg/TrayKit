@@ -33,14 +33,14 @@ namespace TrayKit.Controls
 
     private void AddBaseItems()
     {
-      AddItem(ContextMenuBaseItem.OpenTrayKit.ToString(), "Open TrayKit", BASE_ITEM_TAG, null);
-      AddItem(ContextMenuBaseItem.ExitTrayKit.ToString(), "Exit TrayKit", BASE_ITEM_TAG, null);
+      AddItem(ContextMenuBaseItem.OpenTrayKit.ToString(), "Open TrayKit", BASE_ITEM_TAG, null, true);
+      AddItem(ContextMenuBaseItem.ExitTrayKit.ToString(), "Exit TrayKit", BASE_ITEM_TAG, null, true);
 
       // Set to 1 because Plugin-Items should be added after the "Open TrayKit"-Item which is at index 0.
       pluginStartingIndex = 1;
     }
 
-    private ToolStripMenuItem AddItem(string name, string text, object tag, Image image)
+    private ToolStripMenuItem AddItem(string name, string text, object tag, Image image, bool addClickEventHandler)
     {
       var newItem = new ToolStripMenuItem()
       {
@@ -49,13 +49,13 @@ namespace TrayKit.Controls
         Tag = tag,
         Image = image
       };
-      newItem.Click += Item_Click;
+      if (addClickEventHandler) newItem.Click += Item_Click;
       Items.Add(newItem);
 
       return newItem;
     }
 
-    private ToolStripMenuItem AddItem(string name, string text, object tag, Image image, int index)
+    private ToolStripMenuItem AddItem(string name, string text, object tag, Image image, bool addClickEventHandler, int index)
     {
       var newItem = new ToolStripMenuItem()
       {
@@ -64,7 +64,7 @@ namespace TrayKit.Controls
         Tag = tag,
         Image = image
       };
-      newItem.Click += Item_Click;
+      if (addClickEventHandler) newItem.Click += Item_Click;
       Items.Insert(index, newItem);
 
       return newItem;
@@ -108,21 +108,21 @@ namespace TrayKit.Controls
       {
         newItemIndex = (from ToolStripMenuItem q in Items
                         where q.Tag.ToString() != BASE_ITEM_TAG
-                        select  Items.IndexOf(q)).Max() + 1; // + 1 because the new item has to be placed behind the last plugin-item already in the list.
+                        select Items.IndexOf(q)).Max() + 1; // + 1 because the new item has to be placed behind the last plugin-item already in the list.
       }
 
       if (!plugin.Commands.Any())
       {
-        AddItem(plugin.Name, plugin.Name, plugin.Name, plugin.Image, newItemIndex);
+        AddItem(plugin.Name, plugin.Name, plugin.Name, plugin.Image, true, newItemIndex);
       }
       else if (plugin.Commands.Count == 1)
       {
         var command = plugin.Commands[0];
-        AddItem(command.Name, command.Name, command.GetFullCommandKey(), command.Image, newItemIndex);
+        AddItem(command.Name, command.Name, command.GetFullCommandKey(), command.Image, true, newItemIndex);
       }
       else
       {
-        var pluginItem = AddItem(plugin.Name, plugin.Name, plugin.Name, plugin.Image, newItemIndex);
+        var pluginItem = AddItem(plugin.Name, plugin.Name, plugin.Name, plugin.Image, false, newItemIndex);
         foreach (var command in (from q in plugin.Commands
                                  orderby q.SortPosition ascending
                                  select q))

@@ -100,7 +100,7 @@ namespace TrayKit.Views
         ctmNotifyIcon.RemovePlugin(plugin.TrayKitPlugin);
       }
     }
-        
+
     protected override void OnStateChanged(EventArgs e)
     {
       if (WindowState == WindowState.Minimized)
@@ -139,39 +139,47 @@ namespace TrayKit.Views
 
     private void CtmNotifyIcon_MenuItemClicked(object sender, Controls.MenuItemClickedEventArgs e)
     {
-      if (e.Tag == Controls.TrayKitContextMenu.BASE_ITEM_TAG)
+      try
       {
-        if (e.Name == Controls.ContextMenuBaseItem.OpenTrayKit.ToString())
+
+        if (e.Tag == Controls.TrayKitContextMenu.BASE_ITEM_TAG)
         {
-          Show();
-          WindowState = WindowState.Normal;
+          if (e.Name == Controls.ContextMenuBaseItem.OpenTrayKit.ToString())
+          {
+            Show();
+            WindowState = WindowState.Normal;
+          }
+          else if (e.Name == Controls.ContextMenuBaseItem.ExitTrayKit.ToString())
+          {
+            Close();
+          }
         }
-        else if (e.Name == Controls.ContextMenuBaseItem.ExitTrayKit.ToString())
+        else
         {
-          Close();
+          var command = (from p in viewModel.PluginController.Plugins
+                         from cmd in p.TrayKitPlugin.Commands
+                         where cmd.GetFullCommandKey() == e.Tag
+                         select cmd).FirstOrDefault();
+          if (command == null)
+          {
+            throw new Exception($"Command not found: {e.Tag}");
+          }
+          command.Execute();
         }
       }
-      else
+      catch (Exception ex)
       {
-        var command = (from p in viewModel.PluginController.Plugins
-                       from cmd in p.TrayKitPlugin.Commands
-                       where cmd.GetFullCommandKey() == e.Tag
-                       select cmd).FirstOrDefault();
-        if (command == null)
-        {
-          throw new Exception($"Command not found: {e.Tag}");
-        }
-        command.Execute();
+        System.Windows.MessageBox.Show(ex.ToString());
       }
     }
-    
+
     private void AddPluginsToContextMenu()
     {
       foreach (var plugin in viewModel.PluginController.Plugins)
       {
         ctmNotifyIcon.ImportPlugin(plugin.TrayKitPlugin);
       }
-    }    
+    }
     #endregion
   }
 }
